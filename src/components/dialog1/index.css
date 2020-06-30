@@ -1,0 +1,33 @@
+.htmldialog{
+    width: 600px;
+    height: 500px;
+    background-color:#00000088;
+    margin: 0 auto;
+    display: none;
+}
+.titlebar{
+    background-color: black;
+    padding: 5px;
+    display: flex;
+    justify-content: space-between;
+    color: white;
+    cursor: pointer;
+}
+.footBar{
+    padding: 5px;
+    display: flex;
+    justify-content: space-around;
+}
+.htmldialog > textarea{
+    width: 100%;
+    height: 100%;
+}
+
+.button1 {
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    width: 100%;
+    opacity: 0.9;
+    background-color: rgb(118, 118, 118)!important;
+}
