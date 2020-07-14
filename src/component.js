@@ -11,9 +11,6 @@ import AlertDialog from './components/MaterialModal';
 
 const  ArticleEditor = (props) => {
   const [contentHTML, setContentHTML] = useState('');
-  // const [isModalOpen, ] = useState(false);
-  // const openModal = () => setModalOpen(true);
-  // const closeModal = () => setModalOpen(false);
   
   const [isModalOpen, setModalOpen] = useState(false);
   const openModal = () => setModalOpen(true);
@@ -43,8 +40,6 @@ const  ArticleEditor = (props) => {
         code:
           async() => {
             setContentHTML(content);
-            // openModal();
-            // setOpen(true);
             openModal();
           },
       },
@@ -55,10 +50,10 @@ const  ArticleEditor = (props) => {
     content = html;
   }
 
-  // const getEditValue =(val) => {
-  //   setContentHTML(val);
-  //   content = val;
-  // }
+  const getEditValue =(val) => {
+    setContentHTML(val);
+    content = val;
+  }
 
   return (
     <React.Fragment>
@@ -68,13 +63,14 @@ const  ArticleEditor = (props) => {
         value={contentHTML}
         onChange={onChangeText}
       />
-      {/* React Strap Modal */}
       <AlertDialog 
         isOpen={isModalOpen}
         contentHTML={contentHTML}
         close={closeModal}
-      />
+        getValue={getEditValue}
+        />
       
+      {/* React Strap Modal */}
       {/* <HTMLEditModal
         isOpen={isModalOpen}
         close={closeModal}
