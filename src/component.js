@@ -1,16 +1,26 @@
-import React from "react";
+import React, {useState} from "react";
 import PropTypes from "prop-types";
-import ReactQuill from "react-quill";
+import ReactQuill, { Quill } from "react-quill";
 import "react-quill/dist/quill.snow.css";
+// import 'bootstrap/dist/css/bootstrap.css';
+// import HTMLEditModal from "./components/HTMLEditModal";
+// import HtmlDialog from "./dialog/htmldialog";
+// import { HtmlEditorModal }  from './dialog/index';
 
-import { HtmlEditorModal }  from './components/dialog'
-import HtmlDialog  from './components/dialog/htmldialog'
+import AlertDialog from './components/MaterialModal';
 
-class ArticleEditor extends React.Component {
-  state = {
-    contentHTML:''
-  }
-  modules = {
+const  ArticleEditor = (props) => {
+  const [contentHTML, setContentHTML] = useState('');
+  // const [isModalOpen, ] = useState(false);
+  // const openModal = () => setModalOpen(true);
+  // const closeModal = () => setModalOpen(false);
+  
+  const [isModalOpen, setModalOpen] = useState(false);
+  const openModal = () => setModalOpen(true);
+  const closeModal = () => setModalOpen(false);
+
+  let content = contentHTML;
+  const modules = {
     toolbar: {
       container: [
         [{ font: [] }, { header: [1, 2, 3, 4, 5, 6] }],
@@ -32,45 +42,57 @@ class ArticleEditor extends React.Component {
       handlers: {
         code:
           async() => {
-            document.getElementById('htmldialog_content').value = this.state.contentHTML;
-           
-            const ret = await HtmlEditorModal.open('htmldialog')();
-            this.setState({contentHTML: ret})
-            // window.localStorage.getItem('retVal')
-
-            // console.log('ddd: ',window.localStorage.getItem('retVal'))
-            // this.setState({contentHTML:window.localStorage.getItem('retVal')})
-            // this.setState({contentHTML:'sdfsdf'})
-            
+            setContentHTML(content);
+            // openModal();
+            // setOpen(true);
+            openModal();
           },
       },
 
     }
   }
-  onChangeText = (html, delta, source, editor) => {
-    this.setState({contentHTML: html})
+  const onChangeText = (html, delta, source, editor) => {
+    content = html;
   }
-  render() {
-    return <>
+
+  // const getEditValue =(val) => {
+  //   setContentHTML(val);
+  //   content = val;
+  // }
+
+  return (
+    <React.Fragment>
       <ReactQuill
-        modules={this.modules}
+        modules={modules}
         theme="snow"
-        value={this.state.contentHTML}
-        onChange={this.onChangeText}
-      ></ReactQuill>
-      <HtmlEditorModal id="htmldialog">
-        <HtmlDialog html={this.state.contentHTML} />
-      </HtmlEditorModal>
-      </>
-  }
+        value={contentHTML}
+        onChange={onChangeText}
+      />
+      {/* React Strap Modal */}
+      <AlertDialog 
+        isOpen={isModalOpen}
+        contentHTML={contentHTML}
+        close={closeModal}
+      />
+      
+      {/* <HTMLEditModal
+        isOpen={isModalOpen}
+        close={closeModal}
+        contentHTML={contentHTML}
+        getValue={getEditValue}
+      /> */}
+
+      {/* Class Component */}
+      {/* <HtmlEditorModal id="htmldialog">
+        <HtmlDialog html={contentHTML} />
+      </HtmlEditorModal> */}
+    </React.Fragment>
+  )
+  
 }
 
 ArticleEditor.propTypes = {
   setAlert: PropTypes.func.isRequired,
 };
-
-const mapStateToProps = (state) => ({
-  setAlert: state.setAlert,
-});
 
 export default ArticleEditor;
